@@ -31,6 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	} else {
 		$e = mysqli_real_escape_string($dbc, trim($_POST['email']));
 	}
+	// Check for a username:
+	if (empty($_POST['username'])) {
+		$errors[] = 'You forgot to enter your username.';
+	} else {
+		$un = mysqli_real_escape_string($dbc, trim($_POST['username']));
+	}
 
 	// Check for a password and match against the confirmed password:
 	if (!empty($_POST['pass1'])) {
@@ -48,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		// Register the user in the database...
 
 		// Make the query:
-		$q = "INSERT INTO users (first_name, last_name, email, pass, registration_date) VALUES ('$fn', '$ln', '$e', SHA2('$p', 512), NOW() )";
+		$q = "INSERT INTO users (first_name, last_name, email, pass, username) VALUES ('$fn', '$ln', '$e', SHA2('$p', 512), '$un' )";
 		$r = @mysqli_query($dbc, $q); // Run the query.
 		if ($r) { // If it ran OK.
 
@@ -93,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	<p>First Name: <input type="text" name="first_name" size="15" maxlength="20" value="<?php if (isset($_POST['first_name'])) echo $_POST['first_name']; ?>"></p>
 	<p>Last Name: <input type="text" name="last_name" size="15" maxlength="40" value="<?php if (isset($_POST['last_name'])) echo $_POST['last_name']; ?>"></p>
 	<p>Email Address: <input type="email" name="email" size="20" maxlength="60" value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>" > </p>
+	<p>Username: <input type="text" name="username" size="20" maxlength="30" value="<?php if (isset($_POST['username'])) echo $_POST['username']; ?>" > </p>
 	<p>Password: <input type="password" name="pass1" size="10" maxlength="20" value="<?php if (isset($_POST['pass1'])) echo $_POST['pass1']; ?>" ></p>
 	<p>Confirm Password: <input type="password" name="pass2" size="10" maxlength="20" value="<?php if (isset($_POST['pass2'])) echo $_POST['pass2']; ?>" ></p>
 	<p><input type="submit" name="submit" value="Register"></p>
