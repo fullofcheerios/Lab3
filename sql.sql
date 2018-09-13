@@ -70,8 +70,8 @@ DELETE FROM users WHERE user_id = 8 LIMIT 1;
 # Chapter 6
 # ---------
 
-CREATE DATABASE forum CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE forum;
+CREATE DATABASE forums DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+USE forums;
 
 CREATE TABLE forums (
 forum_id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -108,7 +108,7 @@ UNIQUE (email),
 INDEX login (pass, email)
 ) ENGINE = INNODB;
 
-CHARSET utf8;
+DEFAULT CHARACTER SET utf8;
 
 INSERT INTO forums (name) VALUES
 ('MySQL'), ('PHP'), ('Sports'),
